@@ -7,12 +7,12 @@ import '../response/my_response.dart';
 
 class BookViewModel extends ChangeNotifier {
   List<BookModel> allBooks = [];
-
   String statusText = "";
-
   bool isLoading = false;
 
-  BookViewModel({required this.productRepo});
+  BookViewModel({required this.productRepo}) {
+    getAllBooks();
+  }
 
   final BookRepo productRepo;
 
@@ -22,6 +22,7 @@ class BookViewModel extends ChangeNotifier {
     _notify(false);
     if (myResponse.errorText.isEmpty) {
       allBooks = myResponse.data as List<BookModel>;
+      notifyListeners();
     } else {
       statusText = myResponse.errorText;
     }
@@ -34,34 +35,38 @@ class BookViewModel extends ChangeNotifier {
 
     if (myResponse.errorText.isEmpty) {
       statusText = myResponse.data as String;
+      notifyListeners();
     } else {
       statusText = myResponse.errorText;
     }
   }
 
-  // Future<void> updateBook(BookModel bookModel) async {
-  //   _notify(true);
-  //   MyResponse myResponse = await productRepo.updateBook(bookModel);
-  //   _notify(false);
-  //
-  //   if (myResponse.errorText.isEmpty) {
-  //     statusText = myResponse.data as String;
-  //   } else {
-  //     statusText = myResponse.errorText;
-  //   }
-  // }
+  Future<void> updateBook(BookModel bookModel) async {
+    _notify(true);
+    MyResponse myResponse = await productRepo.updateBook(bookModel);
+    _notify(false);
 
-  // Future<void> deleteBook(String bookUUID) async {
-  //   _notify(true);
-  //   MyResponse myResponse = await productRepo.deleteBook(bookUUID);
-  //   _notify(false);
-  //
-  //   if (myResponse.errorText.isEmpty) {
-  //     statusText = myResponse.data as String;
-  //   } else {
-  //     statusText = myResponse.errorText;
-  //   }
-  // }
+    if (myResponse.errorText.isEmpty) {
+      statusText = myResponse.data as String;
+      notifyListeners();
+    } else {
+      statusText = myResponse.errorText;
+    }
+  }
+
+  Future<void> deleteBook(String bookUUID) async {
+    _notify(true);
+    MyResponse myResponse = await productRepo.deleteBook(bookUUID);
+    // notifyListeners();
+    _notify(false);
+
+    if (myResponse.errorText.isEmpty) {
+      statusText = myResponse.data as String;
+      notifyListeners();
+    } else {
+      statusText = myResponse.errorText;
+    }
+  }
 
   _notify(bool value) {
     isLoading = value;
