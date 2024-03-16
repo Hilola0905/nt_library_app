@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nt_library_app/screens/home_screen/home_screen.dart';
+
+
+
+void main() {
+
+  runApp(
+    const  MyApp(),
 import 'package:nt_library_app/network/network.dart';
 import 'package:nt_library_app/repository/book_repository.dart';
 import 'package:nt_library_app/view_model/book_view_model.dart';
@@ -27,7 +35,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: HomeScreen(),
+    );
+  }
+}
+
       // theme: ThemeData(
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       //   useMaterial3: true,
@@ -91,3 +110,4 @@ class MyApp extends StatelessWidget {
 //     );
 //   }
 // }
+
