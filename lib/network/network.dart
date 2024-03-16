@@ -48,4 +48,50 @@ class ApiProvider {
       return MyResponse(errorText: error.toString());
     }
   }
+
+  static Future<MyResponse> deleteBook(String productUUID) async {
+    Uri uri = Uri.https(baseUrl, "/api/v1/books");
+    try {
+      http.Response response = await http.delete(
+        uri,
+        headers: {
+          "Authorization": "Bearer $apiToken",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode([
+          {"_uuid": productUUID}
+        ]),
+      );
+      if (response.statusCode == 200) {
+        return MyResponse(data: "Product deleted successfully!");
+      }
+      return MyResponse(errorText: response.statusCode.toString());
+    } catch (error) {
+      return MyResponse(errorText: error.toString());
+    }
+  }
+
+  static Future<MyResponse> updateBook(BookModel productModel) async {
+    Uri uri = Uri.https(baseUrl, "/api/v1/books");
+    try {
+      http.Response response = await http.put(
+        uri,
+        headers: {
+          "Authorization": "Bearer $apiToken",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode([productModel.toJsonForUpdate()]),
+      );
+      if (response.statusCode == 200) {
+        return MyResponse(data: "Product updated successfully!");
+      }
+      return MyResponse(errorText: response.statusCode.toString());
+    } catch (error) {
+      return MyResponse(errorText: error.toString());
+    }
+  }
+
+  
+
+
 }
