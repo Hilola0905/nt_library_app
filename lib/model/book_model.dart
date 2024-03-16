@@ -56,6 +56,14 @@ class BookModel {
     };
   }
 
+  static bool canAddDatabase(BookModel bookModel){
+    if(bookModel.name == ''){ return false;}
+    if(bookModel.price == 0) {return false;}
+    if(bookModel.imgUrl == '') {return false;}
+    if(bookModel.author == ''){ return false;}
+    return true;
+  }
+
   BookModel copyWith({
     String? uuid,
     String? author,

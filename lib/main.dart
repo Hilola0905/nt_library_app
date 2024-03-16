@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nt_library_app/screens/home_screen/home_screen.dart';
-
-
-
-void main() {
-
-  runApp(
-    const  MyApp(),
 import 'package:nt_library_app/network/network.dart';
 import 'package:nt_library_app/repository/book_repository.dart';
+import 'package:nt_library_app/screens/home_screen/home_screen.dart';
 import 'package:nt_library_app/view_model/book_view_model.dart';
 import 'package:provider/provider.dart';
+
 
 void main() {
   ApiProvider apiProvider = ApiProvider();
@@ -52,9 +46,7 @@ class MyApp extends StatelessWidget {
       //   useMaterial3: true,
       // ),
       // home: HomePage(),
-    );
-  }
-}
+
 
 // class HomePage extends StatelessWidget {
 //   const HomePage({super.key});
