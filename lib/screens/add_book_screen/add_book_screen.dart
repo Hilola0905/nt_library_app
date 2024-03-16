@@ -397,17 +397,20 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       onTap: () {
                         bookModel = BookModel(
                             author: authorController.text,
-                            categoryId: activeIndex2,
+                            categoryId: (activeIndex2+1),
                             description: decriptionController.text,
                             imgUrl: imgUrlController.text,
                             name: nameController.text,
                             price: double.parse(priceController.text.isEmpty? '1': priceController.text),
-                            rate: rateActiveIndex + 1,
+                            rate: (rateActiveIndex + 1),
                         );
+                        print(bookModel!.categoryId);
                         if (BookModel.canAddDatabase(bookModel!) && formKey.currentState!.validate() ) {
                           context.read<BookViewModel>().addBook(bookModel!);
+                          context.read<BookViewModel>().getAllBooks();
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("SUCCESS")));
+                              const SnackBar(content: Text("SUCCESS"),),);
+                          Navigator.pop(context);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(

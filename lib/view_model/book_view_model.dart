@@ -63,7 +63,8 @@ class BookViewModel extends ChangeNotifier {
 
     if (myResponse.errorText.isEmpty) {
       statusText = myResponse.data as String;
-      notifyListeners();
+      getAllBooks();
+      // notifyListeners();
     } else {
       statusText = myResponse.errorText;
     }
