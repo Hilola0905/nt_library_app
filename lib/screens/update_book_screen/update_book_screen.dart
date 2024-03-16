@@ -254,23 +254,18 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                             : priceController.text),
                         categoryId: activeIndex1,
                       );
-                      print(myBookModel.name);
-                      print(myBookModel.price);
-                      print(myBookModel.description);
-                      print(myBookModel.categoryId);
-                      print(myBookModel.author);
-                      print(myBookModel.imgUrl);
+
                       if (BookModel.canAddDatabase(myBookModel) && formKey.currentState!.validate()) {
                         context.read<BookViewModel>().updateBook(myBookModel);
                         // context.read<BookViewModel>().getAllBooks();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("SUCCESS"),
                           ),
                         );
                       }else{
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("Nimadur Xato"),
                           ),
                         );
