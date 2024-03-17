@@ -237,9 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MaterialPageRoute(
                                               builder: (context) {
                                                 return UpdateBookScreen(
-                                                  bookModel: context
-                                                      .watch<BookViewModel>()
-                                                      .allBooks[index],
+                                                  bookModel:book
                                                 );
                                               },
                                             ),
