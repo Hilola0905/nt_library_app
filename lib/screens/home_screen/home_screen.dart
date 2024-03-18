@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Text(
                                               book.name,
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 overflow: TextOverflow.ellipsis,
                                                 fontWeight: FontWeight.w400,
@@ -205,11 +205,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Text(
                                               book.author,
                                               textAlign: TextAlign.start,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 overflow: TextOverflow.ellipsis,
-
-                                                // textBaseline: ,
                                                 fontWeight: FontWeight.w400,
                                                 color: Colors.blue,
                                               ),

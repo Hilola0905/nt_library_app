@@ -53,6 +53,7 @@ class BookModel {
       "rate": rate,
       "img_url": imgUrl,
       "_uuid": uuid,
+      "category_id":categoryId,
     };
   }
 
