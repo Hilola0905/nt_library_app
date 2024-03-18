@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nt_library_app/model/book_model.dart';
@@ -56,9 +57,9 @@ class _AddBookScreenState extends State<AddBookScreen> {
           ),
           title: const Center(
               child: Text(
-            "Add to books",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-          )),
+                "Add to books",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              )),
           backgroundColor: Colors.blueAccent,
         ),
         body: SingleChildScrollView(
@@ -312,7 +313,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       children: [
                         ...List.generate(
                           CategoryNames.values.length,
-                          (index) => InkWell(
+                              (index) => InkWell(
                             onTap: () {
                               setState(() {
                                 activeIndex2 = index;
@@ -355,7 +356,7 @@ class _AddBookScreenState extends State<AddBookScreen> {
                       children: [
                         ...List.generate(
                           5,
-                          (index) => InkWell(
+                              (index) => InkWell(
                             onTap: () {
                               setState(() {
                                 rateActiveIndex = index;
@@ -396,20 +397,20 @@ class _AddBookScreenState extends State<AddBookScreen> {
                     child: InkWell(
                       onTap: () {
                         bookModel = BookModel(
-                            author: authorController.text,
-                            categoryId: (activeIndex2+1),
-                            description: decriptionController.text,
-                            imgUrl: imgUrlController.text,
-                            name: nameController.text,
-                            price: double.parse(priceController.text.isEmpty? '1': priceController.text),
-                            rate: (rateActiveIndex + 1),
+                          author: authorController.text,
+                          categoryId: (activeIndex2+1),
+                          description: decriptionController.text,
+                          imgUrl: imgUrlController.text,
+                          name: nameController.text,
+                          price: double.parse(priceController.text.isEmpty? '1': priceController.text),
+                          rate: (rateActiveIndex + 1),
                         );
                         print(bookModel!.categoryId);
                         if (BookModel.canAddDatabase(bookModel!) && formKey.currentState!.validate() ) {
                           context.read<BookViewModel>().addBook(bookModel!);
                           context.read<BookViewModel>().getAllBooks();
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("SUCCESS"),),);
+                            const SnackBar(content: Text("SUCCESS"),),);
                           Navigator.pop(context);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(

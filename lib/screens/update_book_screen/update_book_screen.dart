@@ -8,21 +8,27 @@ import 'package:provider/provider.dart';
 
 class UpdateBookScreen extends StatefulWidget {
   final BookModel bookModel;
-
-  const UpdateBookScreen({super.key, required this.bookModel});
+  const UpdateBookScreen({super.key, required this.bookModel,  });
 
   @override
   State<UpdateBookScreen> createState() => _UpdateBookScreenState();
 }
 
 class _UpdateBookScreenState extends State<UpdateBookScreen> {
-  int activeIndex1 = 0;
 
   var formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-
+  late  final TextEditingController descriptionController = TextEditingController();
+  late final TextEditingController priceController = TextEditingController();
+  late int activeIndex;
+  @override
+  void initState() {
+    activeIndex=widget.bookModel.categoryId;
+    nameController.text=widget.bookModel.name;
+    descriptionController.text=widget.bookModel.description;
+    priceController.text=widget.bookModel.price.toString();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
@@ -58,18 +64,11 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
               children: [
                 TextFormField(
                   keyboardType: TextInputType.text,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return "Name Xato";
-                    } else {
-                      return null;
-                    }
-                  },
                   autofocus: true,
                   controller: nameController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
-                    hintText: "Name",
+                    hintText: widget.bookModel.name,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
@@ -107,18 +106,11 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                   maxLines: 1,
 
                   keyboardType: TextInputType.text,
-                  validator: (String? value) {
-                    if (value == null) {
-                      return " Description is error";
-                    } else {
-                      return null;
-                    }
-                  },
                   controller: descriptionController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     //contentPadding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                    hintText: "description",
+                    hintText: widget.bookModel.description,
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
@@ -156,17 +148,10 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                   onTap: () {},
                   //  obscureText: true,
                   keyboardType: TextInputType.number,
-                  validator: (String? value) {
-                    if (value == null || value.isEmpty) {
-                      return " Description is error";
-                    } else {
-                      return null;
-                    }
-                  },
                   controller: priceController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
-                    hintText: "Price",
+                    hintText: widget.bookModel.price.toString(),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
@@ -208,18 +193,21 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                       ...List.generate(
                         CategoryNames.values.length,
                         (index) => Ink(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: InkWell(
+                            borderRadius: BorderRadius.circular(8),
                             onTap: () {
+                              print("$index  index");
                               setState(() {
-                                activeIndex1 = index;
+                                activeIndex= index+1;
                               });
                             },
                             child: Container(
+
                               padding: const EdgeInsets.symmetric(
                                   vertical: 8, horizontal: 8),
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               decoration: BoxDecoration(
-                                color: activeIndex1 == index
+                                color:activeIndex-1== index
                                     ? Colors.blue
                                     : Colors.white,
                                 borderRadius: BorderRadius.circular(8),
@@ -229,7 +217,7 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                               ),
                               child: Text(
                                 CategoryNames.values[index].name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.black,
@@ -242,7 +230,7 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 100),
+                const SizedBox(height: 90),
                 Ink(
                   child: InkWell(
                     onTap: () {
@@ -252,17 +240,18 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                         price: double.parse(priceController.text.isEmpty
                             ? "0"
                             : priceController.text),
-                        categoryId: activeIndex1,
+                        categoryId: activeIndex,
                       );
 
                       if (BookModel.canAddDatabase(myBookModel) && formKey.currentState!.validate()) {
-                        context.read<BookViewModel>().updateBook(myBookModel);
-                        // context.read<BookViewModel>().getAllBooks();
-                        ScaffoldMessenger.of(context).showSnackBar(
+                         context.read<BookViewModel>().updateBook(myBookModel);
+                         context.read<BookViewModel>().getAllBooks();
+                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text("SUCCESS"),
                           ),
                         );
+                        Navigator.pop(context);
                       }else{
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
@@ -272,19 +261,19 @@ class _UpdateBookScreenState extends State<UpdateBookScreen> {
                       }
                     },
                     child: Container(
-                      width: 150,
+                      width: 140,
                       height: 70,
                       decoration: BoxDecoration(
                         color: Colors.blueAccent,
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Center(
+                      child: const  Center(
                         child: Text("Update Book"),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+
               ],
             ),
           ),
