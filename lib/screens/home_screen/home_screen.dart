@@ -79,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.blueAccent,
         ),
         body: context.watch<BookViewModel>().isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(),
               )
             : Container(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )),
                                   child: Text(
                                     CategoryNames.values[index].name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: Colors.black,
@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                     const SizedBox(
                       height: 10,
                     ),
                     Expanded(
@@ -147,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ...List.generate(bookModels.length, (index) {
                             var book = bookModels[index];
                             return Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const  EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 6),
                               // height: 100,
                               decoration: BoxDecoration(
@@ -218,10 +218,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ],
                                       ),
                                       InkWell(
-                                        onTap: () {
-                                          context
-                                              .read<BookViewModel>()
-                                              .deleteBook(book.uuid!);
+                                        onTap: ()  async {
+                                          return showDialog(
+                                              context: context,
+                                              builder:(BuildContext context){
+                                                return AlertDialog(
+                                                  title : const  Text(" This book is delete"),
+                                                  actions: [
+                                                    TextButton(onPressed: (){
+                                                      context
+                                                          .read<BookViewModel>()
+                                                          .deleteBook(book.uuid!);
+                                                      Navigator.of(context).pop();
+                                                    }, child: const Text("ok",style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 18
+                                                    ),)),
+                                                    TextButton(onPressed: (){
+                                                      Navigator.of(context).pop();
+                                                    }, child: const Text("cancel",style: TextStyle(
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: 18
+                                                    ),),),
+                                                  ],
+                                                )
+                                                ;
+                                              }
+                                          );
                                         },
                                         child: const Icon(
                                           Icons.delete,
@@ -237,7 +260,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             MaterialPageRoute(
                                               builder: (context) {
                                                 return UpdateBookScreen(
-                                                  bookModel:book
+                                                  bookModel: context
+                                                      .watch<BookViewModel>()
+                                                      .allBooks[index],
+
                                                 );
                                               },
                                             ),
